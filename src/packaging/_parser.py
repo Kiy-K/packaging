@@ -301,7 +301,8 @@ def _try_parse_specifier_set(tokenizer: Tokenizer) -> SpecifierSet | None:
     ``version_many``; the token loop then parses it or reports the error.
     """
     token = tokenizer.peek("SPECIFIER_LIST")
-    if token is None or not token.text:
+    # ``===`` versions can contain commas, which SpecifierSet splits on.
+    if token is None or not token.text or "===" in token.text:
         return None
 
     try:
